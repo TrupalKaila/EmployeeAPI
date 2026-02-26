@@ -82,6 +82,8 @@ namespace EmployeeAPI.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("DeptId");
+
                     b.ToTable("Employees");
 
                     b.HasData(
@@ -109,6 +111,22 @@ namespace EmployeeAPI.Migrations
                             FirstName = "Steve",
                             LastName = "Rogers"
                         });
+                });
+
+            modelBuilder.Entity("EmployeeAPI.Model.Employee", b =>
+                {
+                    b.HasOne("EmployeeAPI.Model.Department", "Department")
+                        .WithMany("Employees")
+                        .HasForeignKey("DeptId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Department");
+                });
+
+            modelBuilder.Entity("EmployeeAPI.Model.Department", b =>
+                {
+                    b.Navigation("Employees");
                 });
 #pragma warning restore 612, 618
         }

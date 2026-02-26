@@ -11,6 +11,9 @@ namespace EmployeeAPI.Database
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Employee>().HasOne(e=>e.Department).WithMany(e=>e.Employees).HasForeignKey(e=>e.DeptId);
+
             modelBuilder.Entity<Employee>().HasData(
                 new Employee() { Id = 1, FirstName = "Peter", LastName = "Parker", Age = 22, DeptId = 1 },
                 new Employee() { Id = 2, FirstName = "Tony", LastName = "Stark", Age = 25, DeptId = 2 },

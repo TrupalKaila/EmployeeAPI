@@ -13,24 +13,35 @@ namespace EmployeeAPI.Repositories
         {
             _context = context;
         }
+
         public List<Employee> GetAllEmployees()
         {
-            return _context.Employees.ToList(); 
+            // Include Department navigation so consumers can access department data
+            return _context.Employees
+                .Include(e => e.Department)
+                .ToList();
         }
+
         public Employee GetEmployeeById(int id)
         {
-            return _context.Employees.FirstOrDefault(x => x.Id == id);
+            // Include Department navigation
+            return _context.Employees
+                .Include(e => e.Department)
+                .FirstOrDefault(x => x.Id == id);
         }
+
         public void AddEmployee(Employee employee)
         {
             _context.Employees.Add(employee);
             _context.SaveChanges();
         }
+
         public void UpdateEmployee(Employee employee)
         {
             _context.Employees.Update(employee);
             _context.SaveChanges();
         }
+
         public void DeleteEmployee(Employee employee)
         {
             _context.Employees.Remove(employee);

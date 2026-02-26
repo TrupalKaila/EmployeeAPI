@@ -22,7 +22,12 @@ namespace EmployeeAPI.Services
                     FirstName = e.FirstName,
                     LastName = e.LastName,
                     Age = e.Age,
-                    DeptId = e.DeptId
+                    DeptId = e.DeptId,
+                    Department = e.Department == null ? null : new DepartmentDto
+                    {
+                        Id = e.Department.Id,
+                        DepartmentName = e.Department.DepartmentName
+                    }
                 })
                 .ToList();
             return employees;
@@ -42,7 +47,12 @@ namespace EmployeeAPI.Services
                 FirstName = emp.FirstName,
                 LastName = emp.LastName,
                 Age = emp.Age,
-                DeptId = emp.DeptId
+                DeptId = emp.DeptId,
+                Department = emp.Department == null ? null : new DepartmentDto
+                {
+                    Id = emp.Department.Id,
+                    DepartmentName = emp.Department.DepartmentName
+                }
             };
             return empDTO;
         }

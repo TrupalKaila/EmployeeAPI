@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EmployeeAPI.Migrations
 {
     [DbContext(typeof(EmployeeDBContext))]
-    [Migration("20260224173922_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20260226110559_InitialMig")]
+    partial class InitialMig
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -85,6 +85,8 @@ namespace EmployeeAPI.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("DeptId");
+
                     b.ToTable("Employees");
 
                     b.HasData(
@@ -112,6 +114,22 @@ namespace EmployeeAPI.Migrations
                             FirstName = "Steve",
                             LastName = "Rogers"
                         });
+                });
+
+            modelBuilder.Entity("EmployeeAPI.Model.Employee", b =>
+                {
+                    b.HasOne("EmployeeAPI.Model.Department", "Department")
+                        .WithMany("Employees")
+                        .HasForeignKey("DeptId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Department");
+                });
+
+            modelBuilder.Entity("EmployeeAPI.Model.Department", b =>
+                {
+                    b.Navigation("Employees");
                 });
 #pragma warning restore 612, 618
         }

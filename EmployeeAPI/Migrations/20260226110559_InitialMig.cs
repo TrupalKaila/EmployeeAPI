@@ -7,7 +7,7 @@
 namespace EmployeeAPI.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialMigration : Migration
+    public partial class InitialMig : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -39,6 +39,12 @@ namespace EmployeeAPI.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Employees", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Employees_Departments_DeptId",
+                        column: x => x.DeptId,
+                        principalTable: "Departments",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.InsertData(
@@ -60,16 +66,21 @@ namespace EmployeeAPI.Migrations
                     { 2, 25, 2, "Tony", "Stark" },
                     { 3, 45, 3, "Steve", "Rogers" }
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Employees_DeptId",
+                table: "Employees",
+                column: "DeptId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Departments");
+                name: "Employees");
 
             migrationBuilder.DropTable(
-                name: "Employees");
+                name: "Departments");
         }
     }
 }

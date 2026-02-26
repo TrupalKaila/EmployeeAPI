@@ -18,8 +18,8 @@ namespace EmployeeAPI.Model
         [Range(18, 80)]
         public int Age { get; set; }
         [Required]
-        [ForeignKey("Department")]
-        public int DeptId { get; set; } 
-
+        [ForeignKey(nameof(Department))]
+        public int DeptId { get; set; }
+        public Department Department { get; set; }
     }
 }

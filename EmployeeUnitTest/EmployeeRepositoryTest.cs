@@ -27,11 +27,14 @@ namespace EmployeeUnitTest
             string dbName = Guid.NewGuid().ToString();
             using (var context = CreateContext(dbName))
             {
-                context.Employees.AddRange(new[]
-                {
-                    new Employee {Id = 1, FirstName = "Peter", LastName = "Parker",Age = 22, DeptId = 1},
-                    new Employee {Id = 2, FirstName = "Tony", LastName = "Stark",Age = 44, DeptId = 2}
-                });
+                context.Departments.AddRange(
+                    new Department { Id = 1, DepartmentName = "IT" },
+                    new Department { Id = 2, DepartmentName = "HR" }
+                );
+                context.Employees.AddRange(
+                    new Employee { Id = 1, FirstName = "Peter", LastName = "Parker", Age = 22, DeptId = 1 },
+                    new Employee { Id = 2, FirstName = "Tony", LastName = "Stark", Age = 44, DeptId = 2 }
+                );
                 context.SaveChanges();
             }
 
@@ -50,6 +53,7 @@ namespace EmployeeUnitTest
             string dbName = Guid.NewGuid().ToString();
             using (var context = CreateContext(dbName))
             {
+                context.Departments.Add(new Department { Id = 1, DepartmentName = "IT" });
                 context.Employees.Add(new Employee { Id = 1, FirstName = "Peter", LastName = "Parker", Age = 22, DeptId = 1 });
                 context.SaveChanges();
             }
@@ -59,8 +63,10 @@ namespace EmployeeUnitTest
                 var returnedEmployee = repo.GetEmployeeById(1);
 
                 Assert.NotNull(returnedEmployee);
+                Assert.NotNull(returnedEmployee.Department); 
                 Assert.Equal(1, returnedEmployee.Id);
                 Assert.Equal("Peter", returnedEmployee.FirstName);
+                Assert.Equal("IT", returnedEmployee.Department.DepartmentName); 
             }
         }
 
@@ -127,12 +133,12 @@ namespace EmployeeUnitTest
                 repo.UpdateEmployee(employee);
             }
 
-            using(var context = CreateContext(dbName))
+            using (var context = CreateContext(dbName))
             {
                 var updatedEmployee = context.Employees.First(e => e.Id == 1);
 
                 Assert.Equal("Tony", updatedEmployee.FirstName);
-            } 
-        } 
+            }
+        }
     }
 }

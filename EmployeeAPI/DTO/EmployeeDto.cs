@@ -19,6 +19,7 @@ namespace EmployeeAPI.DTOs
         public int Age { get; set; }
 
         [Required]
-        public int DeptId { get; set; }
+        public int DeptId { get; set; } 
+        public DepartmentDto? Department { get; set; }
     }
 }
